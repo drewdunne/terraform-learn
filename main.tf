@@ -1,3 +1,12 @@
+terraform {
+    required_version = ">= 0.12"
+    backend "s3" {
+        bucket = "myapp-bucket-777"
+        key = "myapp/state.tfstate"
+        region = "us-west-2"
+    }
+}
+
 resource "aws_vpc" "myapp-vpc" {
     cidr_block = var.vpc_cidr_block
     tags = {
@@ -8,7 +17,7 @@ resource "aws_vpc" "myapp-vpc" {
 resource "aws_default_security_group" "default-sg" {
     vpc_id = aws_vpc.myapp-vpc.id
     ingress {
-        from_port = 22
+        from_port = 21
         to_port = 22
         protocol = "tcp"
         cidr_blocks = [var.my_ip]
